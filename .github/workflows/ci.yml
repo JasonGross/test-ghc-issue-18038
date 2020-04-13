@@ -44,7 +44,10 @@ jobs:
         gcc -v
         echo "::endgroup::"
     - uses: actions/checkout@v2
-    - name: Build
+    - name: Set up perf
       run: |
+        set -x
         sudo mount -o remount,mode=755 /sys/kernel/debug/tracing/
-        make -j${NJOBS}
+        perf list
+    - name: Build
+      run: make -j${NJOBS}
