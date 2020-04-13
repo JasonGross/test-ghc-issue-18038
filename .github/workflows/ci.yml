@@ -45,4 +45,6 @@ jobs:
         echo "::endgroup::"
     - uses: actions/checkout@v2
     - name: Build
-      run: make -j${NJOBS}
+      run: |
+        sudo mount -o remount,mode=755 /sys/kernel/debug/tracing/
+        make -j${NJOBS}
