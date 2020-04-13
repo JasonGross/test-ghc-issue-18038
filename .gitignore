@@ -21,3 +21,8 @@ cabal.project.local
 cabal.project.local~
 .HTF/
 .ghc.environment.*
+/unsaturated_solinas2.hs
+/unsaturated_solinas
+/unsaturated_solinas2
+*~
+*#

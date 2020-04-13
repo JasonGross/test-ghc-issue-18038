@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 1 * *'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        env:
+        - { NJOBS: "1" }
+        - { NJOBS: "2" }
+        ghc: [ '8.0.2', '8.2.2', '8.4.4', '8.6.2', '8.6.3', '8.6.4', '8.6.5', '8.8.1' ]
+        cabal: [ '3.0' ]
+
+    env: ${{ matrix.env }}
+
+    steps:
+    - uses: actions/setup-haskell@v1
+      with:
+        ghc-version: ${{ matrix.ghc }}
+        cabal-version: ${{ matrix.cabal }}
+    - name: echo build params
+      run: |
+        echo "::group::lscpu"
+        lscpu
+        echo "::endgroup::"
+        echo "::group::uname -a"
+        uname -a
+        echo "::endgroup::"
+        echo "::group::lsb_release -a"
+        lsb_release -a
+        echo "::endgroup::"
+        echo "::group::ghc --version"
+        ghc --version
+        echo "::endgroup::"
+        echo "::group::gcc -v"
+        gcc -v
+        echo "::endgroup::"
+    - uses: actions/checkout@v2
+    - name: Build
+      run: make -j${NJOBS}
