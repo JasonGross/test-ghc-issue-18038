@@ -5,7 +5,7 @@ all: $(EXES)
 .PHONY: all
 
 $(EXES) : % : %.hs
-	$(TIMER) ghc -o $@ $<
+	$(TIMER) ghc -o $@ $< +RTS -s -RTS -v3
 
 unsaturated_solinas2.hs: unsaturated_solinas.hs
 	cp $< $@
